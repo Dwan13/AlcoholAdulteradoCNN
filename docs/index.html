@@ -1,23 +1,24 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
 </head>
 
 <body>
     <main>
-        <div>
-            <h1>Prueba</h1>
+        <div class="container">
+            <h1>Bienvenido al analizador de licor por golpeo</h1>
             <form action="index.html" method="POST">
                 <label for="Audio">Audio:</label>
                 <br>
                 <input type="text" title="Analizar por link en audio" placeholder="Ingrese un link" id="Audio" required>
             </form>
-            <input type="submit" name="" value="Enviar" class="btn" onclick="creartablaAudios()">
+            <input type="submit" class="btn btn-primary btn-sm" name="" value="Enviar" onclick="creartablaAudios()">
+            <div id="Miresultado"></div>
         </div>
         <script>
             function creartablaAudios() {
@@ -35,7 +36,18 @@
                 };
 
                 $.ajax(settings).done(function(response) {
+                    if (response.result == "LIDER-AGUA" || response.result == "NECTAR-AGUA" || response.result == "ANTIO-AGUA") {
+                        var div = `<div class="alert alert-danger" role="alert">
+                Tenga cuidado este líquido se cataloga como adulterado.
+            </div>`;
+
+                    } else {
+                        var div = `<div class="alert alert-success" role="alert">
+                Este líquido está en buenas condiciones.
+            </div>`;
+                    }
                     alert(response.result);
+                    $("#Miresultado").append(div)
                 });
             }
         </script>
